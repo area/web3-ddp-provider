@@ -22,6 +22,6 @@ Package.onUse(function(api) {
 Package.onTest(function(api) {
   api.use('ecmascript');
   api.use('tinytest');
-  api.use('area:web3-ddp-provider');
+  api.use('colony:web3-ddp-provider');
   api.addFiles('web3-ddp-provider-tests.js');
 });
