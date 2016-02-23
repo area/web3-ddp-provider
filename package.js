@@ -1,6 +1,6 @@
 Package.describe({
   name: 'colony:web3-ddp-provider',
-  version: '0.0.1',
+  version: '0.0.2',
   // Brief, one-line summary of the package.
   summary: 'A web3 provider that allows communication with a geth node hosted on the backend via DDP',
   // URL to the Git repository containing the source code for this package.
