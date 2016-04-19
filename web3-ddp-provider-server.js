@@ -3,8 +3,15 @@ Meteor.methods({
 		if (['eth_call', 'eth_sendRawTransaction', 'eth_getTransactionCount', 'eth_gasPrice', 'eth_getTransactionByHash','eth_estimateGas','eth_getBalance'].indexOf(JSON.parse(call).method) === -1) {
 			return new Error("This provider doesn't support that method")
 		}
-
-		return Meteor.http.call("POST", "http://localhost:8545", {
+		let gethAddress = '127.0.0.1';
+		if (process.env.GETH_ADDRESS){
+			gethAddress = process.env.GETH_ADDRESS;
+		}
+		let gethPort = '8545';
+		if (process.env.GETH_PORT){
+			gethPort = process.env.GETH_PORT;
+		}
+		return Meteor.http.call("POST", "http://" + gethAddress + ":" + gethPort, {
 			content: call
 		});
 	}
