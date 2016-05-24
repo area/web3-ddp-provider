@@ -23,11 +23,14 @@ DdpProvider.prototype.sendAsync = function(payload, callback) {
         return callback(new Error("This provider doesn't support that method"))
     }
 
-
+    var method = payload.method;
     Meteor.call('web3DdpProviderExec', JSON.stringify(payload), function(err, res) {
         var error, result;
         try {
             result = JSON.parse(res.content);
+            if (method === 'eth_getFilterChanges' && !(result instanceof Array)) {
+                result = [result];
+            }
         } catch (e) {
             error = new Error();
         }
