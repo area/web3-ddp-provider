@@ -1,10 +1,9 @@
 DdpProvider = function() {};
 
-
 DdpProvider.prototype.sendAsync = function(payload, callback) {
-
     //We only whitelist some methods
-    if ([
+    var checkIfMethodIsAllowed = function(payload) {
+      if ([
             'eth_call',
             'eth_sendRawTransaction',
             'eth_newPendingTransactionFilter',
@@ -20,20 +19,32 @@ DdpProvider.prototype.sendAsync = function(payload, callback) {
             'eth_estimateGas',
             'eth_getBalance'
         ].indexOf(payload.method) === -1) {
-        return callback(new Error("This provider doesn't support that method"))
-    }
+        throw new Error("This provider doesn't support that method");
+      }
+    };
 
-    var method = payload.method;
-    Meteor.call('web3DdpProviderExec', JSON.stringify(payload), function(err, res) {
+    try {
+
+      if(payload instanceof Array) {
+        payload.map(checkIfMethodIsAllowed);
+      } else {
+        checkIfMethodIsAllowed(payload);
+      }
+
+      Meteor.call('web3DdpProviderExec', JSON.stringify(payload), function(err, res) {
         var error, result;
         try {
             result = JSON.parse(res.content);
-            if (method === 'eth_getFilterChanges' && !(result instanceof Array)) {
-                result = [result];
-            }
+            console.log('Result: ', result);
         } catch (e) {
             error = new Error();
         }
+
         callback(error, result);
-    });
+
+      });
+
+    } catch (error) {
+      return callback(error);
+    }
 }

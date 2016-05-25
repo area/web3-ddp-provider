@@ -1,7 +1,8 @@
 Meteor.methods({
     'web3DdpProviderExec': function(call) {
-
-        if ([
+        //We only whitelist some methods
+        var checkIfMethodIsAllowed = function(payload) {
+          if ([
                 'eth_call',
                 'eth_sendRawTransaction',
                 'eth_newPendingTransactionFilter',
@@ -17,7 +18,14 @@ Meteor.methods({
                 'eth_estimateGas',
                 'eth_getBalance'
             ].indexOf(JSON.parse(call).method) === -1) {
-            return new Error("This provider doesn't support that method")
+            return new Error("This provider doesn't support that method");
+          }
+        };
+
+        if(call instanceof Array) {
+          call.map(checkIfMethodIsAllowed);
+        } else {
+          checkIfMethodIsAllowed(call);
         }
 
         let gethAddress = '127.0.0.1';
