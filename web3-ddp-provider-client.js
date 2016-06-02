@@ -12,6 +12,7 @@ DdpProvider.prototype.sendAsync = function(payload, callback) {
             'eth_uninstallFilter',
             'eth_getFilterChanges',
             'eth_getFilterLogs',
+            'eth_getTransactionReceipt',
             'eth_getLogs',
             'eth_getTransactionCount',
             'eth_gasPrice',

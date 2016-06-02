@@ -12,6 +12,7 @@ Meteor.methods({
                 'eth_getFilterChanges',
                 'eth_getFilterLogs',
                 'eth_getLogs',
+                'eth_getTransactionReceipt',
                 'eth_getTransactionCount',
                 'eth_gasPrice',
                 'eth_getTransactionByHash',
