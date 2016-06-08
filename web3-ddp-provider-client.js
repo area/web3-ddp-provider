@@ -1,4 +1,25 @@
 DdpProvider = function() {};
+DdpProvider.prototype.isConnected = function() {
+  return new Promise(function(resolve, reject) {
+    try {
+
+      this.sendAsync({
+          id: 9999999999,
+          jsonrpc: '2.0',
+          method: 'net_listening',
+          params: []
+      }, processResult);
+
+      function processResult (error, result) {
+        if(error) return reject(error, false);
+        return resolve(true);
+      }
+
+    } catch(err) {
+      return reject(err, false);
+    }
+  });
+};
 
 DdpProvider.prototype.sendAsync = function(payload, callback) {
     //We only whitelist some methods
@@ -36,13 +57,12 @@ DdpProvider.prototype.sendAsync = function(payload, callback) {
         var error, result;
         try {
             result = JSON.parse(res.content);
-            console.log('Result: ', result);
+            console.log('result: ', result);
         } catch (e) {
-            error = new Error();
+            error = e;
         }
 
         callback(error, result);
-
       });
 
     } catch (error) {

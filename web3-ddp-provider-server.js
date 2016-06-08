@@ -17,7 +17,8 @@ Meteor.methods({
                 'eth_gasPrice',
                 'eth_getTransactionByHash',
                 'eth_estimateGas',
-                'eth_getBalance'
+                'eth_getBalance',
+                'net_listening'
             ].indexOf(JSON.parse(call).method) === -1) {
             return new Error("This provider doesn't support that method");
           }
