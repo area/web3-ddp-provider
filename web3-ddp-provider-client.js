@@ -27,6 +27,7 @@ DdpProvider.prototype.sendAsync = function(payload, callback) {
     var checkIfMethodIsAllowed = function(payload) {
       if ([
             'eth_call',
+            'eth_accounts',
             'eth_sendRawTransaction',
             'eth_newPendingTransactionFilter',
             'eth_newBlockFilter',
