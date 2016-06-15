@@ -1,9 +1,10 @@
 DdpProvider = function() {};
 DdpProvider.prototype.isConnected = function() {
+  var self = this;
   return new Promise(function(resolve, reject) {
     try {
 
-      this.sendAsync({
+      self.sendAsync({
           id: 9999999999,
           jsonrpc: '2.0',
           method: 'net_listening',
@@ -39,7 +40,8 @@ DdpProvider.prototype.sendAsync = function(payload, callback) {
             'eth_gasPrice',
             'eth_getTransactionByHash',
             'eth_estimateGas',
-            'eth_getBalance'
+            'eth_getBalance',
+            'net_listening'
         ].indexOf(payload.method) === -1) {
         throw new Error("This provider doesn't support that method");
       }
